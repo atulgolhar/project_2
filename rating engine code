@@ -1,0 +1,59 @@
+# Line of Business rating engine calculation = include the following 9 variables: 
+# = base_rate_state_factor x territory_factor
+# x number_exposures_factor x state_severity_factor 
+# x ilf_factor x ded_sir_factor 
+# x class_relativity_factor x step_factor
+# if adding reinsurance, then use additional layered variables:
+# x ilf_per_layer
+
+# simplified version here using only 2 variables
+
+class Rate
+  def initialize(state_territory, ilf_factor)  
+		@state_territory = state_territory          # input 1
+		@ilf_factor = ilf_factor                    # input 2
+	end
+
+	def state_territory                           # input 1
+		@state_territory
+	end
+
+	def state_territory=(num)
+		@state_territory=num
+	end
+
+	def ilf_factor                                # input 2
+		@ilf_factor
+	end
+
+	def ilf_factor=(num)
+		@ilf_factor=num
+	end
+end
+
+
+def input_info
+  print "\nEnter state or territory variable (use an number): " # input 1 will override default number
+  @state_territory = gets.chomp.to_f
+  print "Enter ilf_factor variable (use an number): "     # input 2 will override default number
+  @ilf_factor = gets.chomp.to_f
+  puts "Inputing factors done."
+  puts
+end
+
+
+def premium_calculation
+  premium = @state_territory * @ilf_factor
+  puts "Property Casualty Insurance Rating Engine Results:"
+  print "state_territory variable in the calculation: ", @state_territory, "\n"
+  print "\nilf_factor variable in the calculation: ", @ilf_factor, "\n"
+  print "\nTotal premium: $%.2f" % premium, "\n\n"
+end
+
+# TDD       # list all tests here (originally used 6 inputs, shrink downs to 2)
+puts "state_territory test:#{ Rate.new(1,2).state_territory == 1 }"    # input 1
+puts "ilf_factor test:#{ Rate.new(1,2).ilf_factor == 2 }"              # input 2
+
+
+input_info
+premium_calculation
